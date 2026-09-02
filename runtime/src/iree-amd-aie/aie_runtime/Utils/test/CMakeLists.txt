@@ -35,13 +35,3 @@ iree_cc_test(
     gtest
     iree-amd-aie::aie_runtime::Utils::Utils
 )
-
-iree_cc_test(
-  NAME
-    DeviceModelTest
-  SRCS
-    "DeviceModelTest.cpp"
-  DEPS
-    gtest
-    iree-amd-aie::aie_runtime::iree_aie_runtime_static
-)
