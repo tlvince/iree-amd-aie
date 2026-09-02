@@ -22,7 +22,7 @@ permissions:
 jobs:
   build_and_ctest:
     name: Build and Test (linux)
-    runs-on: azure-cpubuilder-linux-scale
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
