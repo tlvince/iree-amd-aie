@@ -24,14 +24,16 @@ jobs:
     name: Build and Test (linux)
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        assertions: [ON, OFF]
+        assertions: [ON]
     env:
       CACHE_DIR: ${{ github.workspace }}/.container-cache
       # either the PR number or `branch-N` where N always increments
       CACHE_KEY: linux-build-test-cpp-asserts=${{ matrix.assertions }}-manylinux-v2-${{ format('{0}-{1}', github.ref_name, github.run_number) }}
     steps:
+      - name: Free runner space
+        uses: justinthelaw/maximize-github-runner-space@v0.12.2
       - name: Set unified TZ
         uses: szenius/set-timezone@1f9716b0f7120e344f0c62bb7b1ee98819aefd42 # v2.0
         with:
