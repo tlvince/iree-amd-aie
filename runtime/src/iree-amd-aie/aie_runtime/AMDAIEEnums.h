@@ -37,7 +37,17 @@ static inline bool isAie2(AMDAIEDevice device) { return isNpu1(device); }
 // AIE2P (Strix)  //
 ////////////////////
 static inline bool isNpu4(AMDAIEDevice d) { return d == AMDAIEDevice::npu4; }
-static inline bool isAie2P(AMDAIEDevice device) { return isNpu4(device); }
+
+/////////////////////////
+// AIE2P (Krackan)  //
+/////////////////////////
+static inline bool isNpu6(AMDAIEDevice d) { return d == AMDAIEDevice::npu6; }
+
+/// npu6 (Krackan) is an AIE2P device with the same 8-column/6-row geometry as
+/// npu4 (Strix); the amdxdna kernel driver shares npu4_dev_priv for it.
+static inline bool isAie2P(AMDAIEDevice device) {
+  return isNpu4(device) || isNpu6(device);
+}
 
 }  // namespace mlir::iree_compiler::AMDAIE
 

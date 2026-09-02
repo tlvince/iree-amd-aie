@@ -56,7 +56,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--target-device",
         default="npu4",
-        help="iree-amdaie target device (npu1_4col, npu4, ...).",
+        help="iree-amdaie target device (npu1_4col, npu4, npu6, ...).",
     )
     parser.addoption(
         "--n-core-rows", type=int, default=4, help="amdxdna core-row count."

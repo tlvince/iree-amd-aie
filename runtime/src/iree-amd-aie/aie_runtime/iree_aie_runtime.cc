@@ -114,7 +114,8 @@ StrmSwPortType getConnectingBundle(StrmSwPortType dir) {
 bool isNPUDevice(AMDAIEDevice d) {
   return d == AMDAIEDevice::npu1 || d == AMDAIEDevice::npu1_1col ||
          d == AMDAIEDevice::npu1_2col || d == AMDAIEDevice::npu1_3col ||
-         d == AMDAIEDevice::npu1_4col || d == AMDAIEDevice::npu4;
+         d == AMDAIEDevice::npu1_4col || d == AMDAIEDevice::npu4 ||
+         d == AMDAIEDevice::npu6;
 }
 
 AMDAIEDeviceModel::AMDAIEDeviceModel(
@@ -843,7 +844,11 @@ struct AMDAIEDeviceModel getDeviceModel(AMDAIEDevice device) {
           /*device*/ device,
           /*deviceConfig*/ std::move(deviceConfig));
     }
-    case AMDAIEDevice::npu4: {
+    case AMDAIEDevice::npu4:
+    case AMDAIEDevice::npu6: {
+      // npu6 (Krackan) shares the npu4 (Strix) AIE2P geometry: 8 columns and
+      // 6 core rows. The amdxdna kernel driver confirms this by reusing
+      // npu4_dev_priv / NPU4_COMMON_DEV_INFO for dev_npu6_info.
       AMDAIEDeviceModel::AMDAIEDeviceConfig deviceConfig;
       deviceConfig.shimTileNumRows = XAIE_STRIXB0_MEM_TILE_NUM_ROWS;
       deviceConfig.packetIdMaxIdx = XAIE_STRIXB0_PACKET_ID_MAX;
