@@ -169,16 +169,16 @@ def read_vbnv(npu_device_path):
     f = open(npu_device_path / "vbnv")
     vbnv = f.read().strip()
     # Two known vbnv formats across driver versions:
-    #   "NPU <Arch>"      e.g. "NPU Phoenix", "NPU Strix"
-    #   "RyzenAI-npu<N>"  e.g. "RyzenAI-npu1", "RyzenAI-npu4"
+    #   "NPU <Arch>"      e.g. "NPU Phoenix", "NPU Strix", "NPU Krackan"
+    #   "RyzenAI-npu<N>"  e.g. "RyzenAI-npu1", "RyzenAI-npu4", "RyzenAI-npu6"
     # Normalize both to the arch name get_core_n_cols branches on.
     if vbnv.startswith("NPU "):
         return vbnv.split(" ")[-1].strip()
     if vbnv.startswith("RyzenAI-npu"):
         gen = vbnv.rsplit("npu", 1)[-1].strip()
         # Map by NPU generation to the column-handling branch: npu1 uses the
-        # Phoenix path (one column reserved); later generations use the Strix
-        # path (all columns usable).
+        # Phoenix path (one column reserved); later generations (npu4/npu6 and
+        # beyond) use the Strix path (all columns usable).
         return "Phoenix" if gen == "1" else "Strix"
     raise RuntimeError(f"unrecognized vbnv format: {vbnv!r}")
 
@@ -194,7 +194,7 @@ def get_core_n_cols(drv_fd, npu_device):
     fcntl.ioctl(drv_fd, ioctls.DRM_IOCTL_AMDXDNA_GET_INFO, info_params)
     if npu_device == "Phoenix":
         return metadata.cols - 1
-    elif npu_device == "Strix":
+    elif npu_device in ("Strix", "Krackan"):
         return metadata.cols
 
     return NotImplementedError(f"unrecognized {npu_device=}")

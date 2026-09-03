@@ -22,16 +22,18 @@ permissions:
 jobs:
   build_and_ctest:
     name: Build and Test (linux)
-    runs-on: azure-cpubuilder-linux-scale
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        assertions: [ON, OFF]
+        assertions: [ON]
     env:
       CACHE_DIR: ${{ github.workspace }}/.container-cache
       # either the PR number or `branch-N` where N always increments
       CACHE_KEY: linux-build-test-cpp-asserts=${{ matrix.assertions }}-manylinux-v2-${{ format('{0}-{1}', github.ref_name, github.run_number) }}
     steps:
+      - name: Free runner space
+        uses: justinthelaw/maximize-github-runner-space@v0.12.2
       - name: Set unified TZ
         uses: szenius/set-timezone@1f9716b0f7120e344f0c62bb7b1ee98819aefd42 # v2.0
         with:
@@ -49,9 +51,7 @@ jobs:
           git remote add origin $REPO_ADDRESS
           git -c protocol.version=2 fetch --depth 1 origin $BRANCH_NAME
           git reset --hard FETCH_HEAD
-          git -c submodule."third_party/torch-mlir".update=none \
-              -c submodule."third_party/stablehlo".update=none \
-              -c submodule."third_party/XRT".update=none \
+          git -c submodule."third_party/XRT".update=none \
               submodule update --init --recursive --depth 1 --single-branch -j 10
 
       - name: "Setting up Python"

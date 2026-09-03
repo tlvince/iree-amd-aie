@@ -623,7 +623,9 @@ def AMDAIELoweringStrategy :
         clEnumValN(mlir::iree_compiler::AMDAIE::AMDAIEDevice::npu1_4col, "npu1_4col",
                    "Compile for Phoenix NPU1_4col"),
         clEnumValN(mlir::iree_compiler::AMDAIE::AMDAIEDevice::npu4, "npu4",
-                   "Compile for Strix NPU4")
+                   "Compile for Strix NPU4"),
+        clEnumValN(mlir::iree_compiler::AMDAIE::AMDAIEDevice::npu6, "npu6",
+                   "Compile for Krackan NPU6")
       )}]>,
     Option<"numRows", "num-rows", "uint32_t", /*default=*/"4",
       "Number of rows used in an AIE core array">,

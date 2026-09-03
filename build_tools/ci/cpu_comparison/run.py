@@ -2264,7 +2264,7 @@ class Tests:
             if run_on_target == "npu1_4col":
                 n_rows = 4
                 n_cols = 4
-            elif run_on_target == "npu4":
+            elif run_on_target in ("npu4", "npu6"):
                 n_rows = 4
                 n_cols = 8
 

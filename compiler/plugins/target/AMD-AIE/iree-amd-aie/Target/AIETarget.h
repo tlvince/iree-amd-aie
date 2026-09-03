@@ -289,7 +289,9 @@ struct AMDAIEOptions {
             clEnumValN(AMDAIEDevice::npu1_4col, "npu1_4col",
                        "Phoenix NPU with four columns"),
             clEnumValN(AMDAIEDevice::npu4, "npu4",
-                       "Strix B0 NPU with 8 columns and 6 rows")));
+                       "Strix B0 NPU with 8 columns and 6 rows"),
+            clEnumValN(AMDAIEDevice::npu6, "npu6",
+                       "Krackan NPU with 8 columns and 6 rows")));
 
     binder.opt<unsigned>(
         "iree-amdaie-num-rows", AMDAIENumRows, llvm::cl::cat(category),
